@@ -59,7 +59,7 @@ function ContentPage() {
           )}
         </div>
         <div>
-          <Label className="block text-gray-700 text-lg font-light">
+          <Label className="block text-gray-700 text-xl font-light">
             Text Blog
           </Label>
           <Controller
