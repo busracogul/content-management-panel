@@ -10,13 +10,13 @@ export async function fetchListBlog(){
 }
 
 export async function addBlog(blogData: {title: string; imageUrl: string; paragraph:string}){
-const response= await instance.post("/contents", blogData);
-return response.data;
+  const response = await instance.post("/contents", blogData);
+  return response.data;
 }
 
-export async function updateBlog(id: string, updateData: {title: string; imageUrl:string; paragraph: string}){
-const response= await instance.put(`/contents/${id}`, updateData)
-return response.data;
+export async function updateBlog(id: string, updateData: Partial<{title: string; imageUrl: string; paragraph: string}>) {
+  const response = await instance.put(`/contents/${id}`, updateData);
+  return response.data;
 }
 
 export async function deleteBlog(id: string) {

@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/content-page",
+    path: "/contents/:id",
     element: <ContentPage />,
   },
 ]);

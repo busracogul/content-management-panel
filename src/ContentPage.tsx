@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { fetchListBlog, updateBlog, addBlog } from "./api/api"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Input } from "./components/ui/input";
 import { Label } from "./components/ui/label";
 import { Button } from "./components/ui/button";
 import TextEditor from "./text-editor";
-import { addBlog } from "./api/api"; 
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 
 const schema = z.object({
   title: z.string().min(1, "Title required"),
@@ -17,20 +19,56 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function ContentPage() {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const {
     control,
     register,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  // Form submit işlemi
+  useEffect(() => {
+    async function loadBlogData() {
+      if (!id) {
+        setLoading(false); // Eğer id yoksa, loading'i hemen false yap
+        return; // Yeni içerik ekleme sayfasına yönlendir
+      }
+
+      try {
+        const response = await fetchListBlog();
+        const blog = response.data.find((b: any) => b.id === id);
+        if (blog) {
+          setValue("title", blog.title);
+          setValue("imageUrl", blog.imageUrl);
+          setValue("paragraph", blog.paragraph);
+        } else {
+          toast.error("Blog not found");
+        }
+      } catch (error) {
+        console.error("Error fetching blog data", error);
+        toast.error("Error fetching blog data");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBlogData();
+  }, [id, setValue]);
+
   const onSubmit = handleSubmit(async (data) => {
-    await addBlog(data);
-    toast.success("Content added successfully!");
-    reset(); 
+    if (!id) {
+      await addBlog(data); // Eğer id yoksa, yeni blog oluştur
+      toast.success("Blog created!");
+    } else {
+      await updateBlog(id, data); // Eğer id varsa, blog güncelle
+      toast.success("Blog updated!");
+    }
+    reset();
   });
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>
