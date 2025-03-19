@@ -1,3 +1,4 @@
+import BlogList from "./BlogList";
 import { Button } from "./components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -7,9 +8,9 @@ function App() {
       <div className=" bg-slate-100">
         <div className="container mx-auto">
           <nav className="justify-between flex py-5">
-            <h1 className="text-2xl font-semibold text-slate-800">
+            <p className="text-2xl font-semibold text-slate-800">
               Content Panel
-            </h1>
+            </p>
           </nav>
         </div>
       </div>
@@ -23,6 +24,8 @@ function App() {
           </Button>
         </Link>
       </div>
+
+      <BlogList />
     </>
   );
 }
