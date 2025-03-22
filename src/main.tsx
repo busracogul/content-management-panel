@@ -11,6 +11,10 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
+    path: "/contents",
+    element: <ContentPage />,
+  },
+  {
     path: "/contents/:id",
     element: <ContentPage />,
   },
