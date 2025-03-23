@@ -1,4 +1,4 @@
-import BlogList from "./BlogList";
+import BlogList from "./pages/BlogList";
 import { Button } from "./components/ui/button";
 import { Link } from "react-router-dom";
 

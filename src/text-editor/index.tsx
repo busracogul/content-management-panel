@@ -3,6 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./menu-bar";
 import TextAlign from "@tiptap/extension-text-align";
 import Highlight from "@tiptap/extension-highlight";
+
 type TextEditorProps = {
   value: string;
   onChange: (value: string) => void;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchListBlog, deleteBlog } from "./api/api";
+import { fetchListBlog, deleteBlog } from "../api/api";
 import { Pencil, Trash } from "lucide-react";
 
 interface Blog {

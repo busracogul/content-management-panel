@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { fetchListBlog, updateBlog, addBlog } from "./api/api"; 
+import { fetchListBlog, updateBlog, addBlog } from "../api/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Input } from "./components/ui/input";
-import { Label } from "./components/ui/label";
-import { Button } from "./components/ui/button";
-import TextEditor from "./text-editor";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Button } from "../components/ui/button";
+import TextEditor from "../text-editor";
 import { toast } from "sonner";
 
 const schema = z.object({
@@ -21,6 +21,7 @@ type FormData = z.infer<typeof schema>;
 function ContentPage() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const {
     control,
     register,
@@ -59,11 +60,13 @@ function ContentPage() {
 
   const onSubmit = handleSubmit(async (data) => {
     if (!id) {
-      await addBlog(data); // Eğer id yoksa, yeni blog oluştur
+      await addBlog(data);
       toast.success("Blog created!");
+      navigate("/")
     } else {
-      await updateBlog(id, data); // Eğer id varsa, blog güncelle
+      await updateBlog(id, data);
       toast.success("Blog updated!");
+      navigate("/");
     }
     reset();
   });
