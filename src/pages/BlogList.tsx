@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchListBlog, deleteBlog } from "../api/api";
 import { Pencil, Trash } from "lucide-react";
+import DOMPurify from "dompurify";
 
 interface Blog {
   id: string;
@@ -55,10 +56,20 @@ function BlogList() {
             {blogs.map((blog) => (
               <tr key={blog.id} className="border-b hover:bg-gray-50">
                 <td className="p-3">
-                  <img src={blog.imageUrl} alt={blog.title} className="w-16 h-16 object-cover rounded-md" />
+                  <img
+                    src={blog.imageUrl}
+                    alt={blog.title}
+                    className="w-16 h-16 object-cover rounded-md"
+                  />
                 </td>
                 <td className="p-3 font-medium">{blog.title}</td>
-                <td className="p-3 text-gray-600">{blog.paragraph}</td>
+                <td className="p-3 text-gray-600">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(blog.paragraph),
+                    }}
+                  />
+                </td>
                 <td className="p-3 flex justify-center gap-3">
                   <button
                     className="p-2 bg-green-600 text-white rounded-md hover:bg-green-700"
